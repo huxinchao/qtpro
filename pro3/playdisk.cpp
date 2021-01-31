@@ -34,6 +34,14 @@ playdisk::playdisk(QWidget *parent) :
     RivChipsList[3] = ui->riv_cl_4;
     RivChipsList[4] = ui->riv_cl_5;
 
+    PotChipsList[0] = ui->pot_cl_1;
+    PotChipsList[1] = ui->pot_cl_2;
+    PotChipsList[2] = ui->pot_cl_3;
+    PotChipsList[3] = ui->pot_cl_4;
+    PotChipsList[4] = ui->pot_cl_5;
+
+
+
     ui->own_bar->hide();
     ui->riv_bar->hide();
     ui->own_flashhead->hide();
@@ -44,10 +52,13 @@ playdisk::playdisk(QWidget *parent) :
         RivPokersList[i]->hide();
         OwnChipsList[i]->hide();
         RivChipsList[i]->hide();
+        PotChipsList[i]->hide();
     }
 
     ui->own_underchip_label->hide();
     ui->riv_underchip_label->hide();
+
+    //ui->pub_card->hide();
 
 
 
@@ -73,6 +84,7 @@ void playdisk::on_pushButton_call_clicked()
 {
 
 
+
 }
 
 void playdisk::on_pushButton_fold_clicked()
@@ -82,10 +94,7 @@ void playdisk::on_pushButton_fold_clicked()
 
 }
 
-void playdisk::on_ownSlider_valueChanged(int value)
-{
-    ui->pushButton_raise->setText("Raise\n"+QString::number(value));
-}
+
 
 
 void playdisk::setBackgroundImg(QPixmap* img) {
@@ -117,6 +126,8 @@ void playdisk::setRivPokerSeq(int seq, QPixmap* pokerimg) {
 
 void playdisk::setOwnChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchip) {
     ui->own_underchip_label->setText(QString::number(number) + " B");
+    ui->own_underchip_label->setGeometry(840,510,80,15);
+    ui->own_underchip_label->show();
 
     struct  CHIPSTR {
         int i;
@@ -153,6 +164,10 @@ void playdisk::setOwnChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchi
 
     ui->recv_edit->append(QString::number(chipvec.size()));
 
+    for(int i = 0; i < 5; i++) {
+        OwnChipsList[i]->show();
+    }
+
 
     if(chipvec.size() == 1) {
         OwnChipsList[chipvec[0].i]->setGeometry(861,390,40,140);
@@ -188,6 +203,8 @@ void playdisk::setOwnChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchi
 
 void playdisk::setRivChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchip) {
     ui->riv_underchip_label->setText(QString::number(number) + " B");
+    ui->riv_underchip_label->setGeometry(320,240,80,15);
+    ui->riv_underchip_label->show();
 
     struct  CHIPSTRU {
         int i;
@@ -224,34 +241,113 @@ void playdisk::setRivChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchi
 
     ui->recv_edit->append(QString::number(chipvec.size()));
 
-
+    for(int i = 0; i < 5; i++) {
+        RivChipsList[i]->show();
+    }
     if(chipvec.size() == 1) {
-        RivChipsList[chipvec[0].i]->setGeometry(221,60,40,140);
+        RivChipsList[chipvec[0].i]->setGeometry(341,120,40,140);
     }
     if(chipvec.size() == 2) {
-        RivChipsList[chipvec[0].i]->setGeometry(190,60,40,140);
-        RivChipsList[chipvec[1].i]->setGeometry(232,60,40,140);
+        RivChipsList[chipvec[0].i]->setGeometry(320,120,40,140);
+        RivChipsList[chipvec[1].i]->setGeometry(362,120,40,140);
     }
     if(chipvec.size() == 3) {
-        RivChipsList[chipvec[0].i]->setGeometry(190,60,40,140);
-        RivChipsList[chipvec[1].i]->setGeometry(190,60-5*chipvec[0].n,40,140);
-        RivChipsList[chipvec[2].i]->setGeometry(232,60,40,140);
+        RivChipsList[chipvec[0].i]->setGeometry(320,120,40,140);
+        RivChipsList[chipvec[1].i]->setGeometry(320,120-5*chipvec[0].n,40,140);
+        RivChipsList[chipvec[2].i]->setGeometry(362,120,40,140);
     }
     if(chipvec.size() == 4) {
-        RivChipsList[chipvec[0].i]->setGeometry(190,60,40,140);
-        RivChipsList[chipvec[1].i]->setGeometry(190,60-5*chipvec[0].n,40,140);
-        RivChipsList[chipvec[2].i]->setGeometry(232,60,40,140);
-        RivChipsList[chipvec[3].i]->setGeometry(232,60-5*chipvec[2].n,40,140);
+        RivChipsList[chipvec[0].i]->setGeometry(320,120,40,140);
+        RivChipsList[chipvec[1].i]->setGeometry(320,120-5*chipvec[0].n,40,140);
+        RivChipsList[chipvec[2].i]->setGeometry(362,120,40,140);
+        RivChipsList[chipvec[3].i]->setGeometry(362,120-5*chipvec[2].n,40,140);
     }
     if(chipvec.size() == 5) {
-        RivChipsList[chipvec[0].i]->setGeometry(190,60,40,140);
-        RivChipsList[chipvec[1].i]->setGeometry(190,60-5*chipvec[0].n,40,140);
-        RivChipsList[chipvec[2].i]->setGeometry(190,60-5*(chipvec[0].n+chipvec[1].n),40,140);
-        RivChipsList[chipvec[3].i]->setGeometry(232,60,40,140);
-        RivChipsList[chipvec[4].i]->setGeometry(232,60-5*(chipvec[3].n),40,140);
+        RivChipsList[chipvec[0].i]->setGeometry(320,120,40,140);
+        RivChipsList[chipvec[1].i]->setGeometry(320,120-5*chipvec[0].n,40,140);
+        RivChipsList[chipvec[2].i]->setGeometry(320,120-5*(chipvec[0].n+chipvec[1].n),40,140);
+        RivChipsList[chipvec[3].i]->setGeometry(362,120,40,140);
+        RivChipsList[chipvec[4].i]->setGeometry(362,120-5*(chipvec[3].n),40,140);
+    }
+}
 
+void playdisk::setPotChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchip) {
+    ui->pot_underchip_label->setText(QString::number(number) + " B");
+
+
+    struct  CHIPSTR {
+        int i;
+        int n;
+        CHIPSTR(int _i, int _n) :i(_i), n(_n) {}
+    };
+
+    std::vector<int> bitvec;
+    std::vector<CHIPSTR> chipvec;
+
+    while(number > 0) {
+        int bit = number % 10;
+        bitvec.push_back(bit);
+        number /= 10;
+    }
+
+    for(int i = 0; i < bitvec.size() / 2; i++) {
+        std::swap(bitvec[i], bitvec[bitvec.size() - i - 1]);
+    }
+
+    int beginPaint = 5 - bitvec.size();
+    for(int i = 0; i < beginPaint; i++) {
+        PotChipsList[i]->setPixmap(*bchip);
+    }
+    for(int i = 0, j = bitvec.size() - 1; beginPaint < 5; beginPaint++,i++,j--) {
+        //ui->recv_edit->append(QString::number(beginPaint) + " " + QString::number(j) + " " + QString::number(bitvec[i]));
+        if(bitvec[i] == 0) {
+            PotChipsList[beginPaint]->setPixmap(*bchip);
+        }else {
+            chipvec.push_back(CHIPSTR(beginPaint,bitvec[i]));
+            PotChipsList[beginPaint]->setPixmap(chipImg[j][bitvec[i]-1]);
+        }
+    }
+    /*
+     * 633 270
+     *  */
+
+    if(chipvec.size() == 1) {
+        PotChipsList[chipvec[0].i]->setGeometry(633,270,40,140);
+        PotChipsList[chipvec[0].i]->show();
+    }
+    if(chipvec.size() == 2) {
+        int x = 612;
+        for(int i = 0; i < 2; i++,x+=42) {
+            PotChipsList[chipvec[i].i]->setGeometry(x,270,40,140);
+            PotChipsList[chipvec[i].i]->show();
+        }
+    }
+    if(chipvec.size() == 3) {
+        int x = 591;
+        for(int i = 0; i < 3; i++, x+=42) {
+            PotChipsList[chipvec[i].i]->setGeometry(x,270,40,140);
+            PotChipsList[chipvec[i].i]->show();
+        }
+    }
+    if(chipvec.size() == 4) {
+        int x = 571;
+        for(int i = 0; i < 4; i++, x+=42) {
+            PotChipsList[chipvec[i].i]->setGeometry(x,270,40,140);
+            PotChipsList[chipvec[i].i]->show();
+        }
+    }
+    if(chipvec.size() == 5) {
+        int x = 549;
+        for(int i = 0; i < 5; i++, x+=42) {
+            PotChipsList[chipvec[i].i]->setGeometry(x,270,40,140);
+            PotChipsList[chipvec[i].i]->show();
+        }
 
     }
+
+
+    ui->recv_edit->append(QString::number(chipvec.size()));
+
 
 
 
@@ -332,8 +428,89 @@ void playdisk::startFlash(int va,int vb,int vc) {
 
 }
 
+void playdisk::setPubPoker(QPixmap *blimg) {
+    ui->pub_card->setPixmap(*blimg);
+}
+
+void playdisk::sendCard(int v) {
+
+        if(ui->pub_card->isHidden()) {
+            ui->pub_card->setGeometry(340,305,70,100);
+            ui->pub_card->show();
+        }
+
+
+        if(v == 1) {
+            /*
+             * 340 305
+             * Target Own: 390 355
+             * Target Riv: 390 255
+             * */
+
+            ui->pub_card->setGeometry(ui->pub_card->geometry().x() + 1, ui->pub_card->geometry().y() + 1,70,100);
+
+
+        }
+        if(v == 2) {
+
+            ui->pub_card->setGeometry(ui->pub_card->geometry().x() + 1, ui->pub_card->geometry().y() - 1,70,100);
+
+        }
+        if(v == 3) {
+            ui->pub_card->hide();
+        }
+}
+
+void playdisk::moveChip(int va, int vb) {
+
+    if(va == 1) {
+        int x,y;
+
+        for(int i = 0; i < 5; i++) {
+                x = OwnChipsList[i]->geometry().x();
+                y = OwnChipsList[i]->geometry().y();
+                OwnChipsList[i]->setGeometry(x-2,y-2,40,140);
+
+
+
+                x = RivChipsList[i]->geometry().x();
+                y = RivChipsList[i]->geometry().y();
+                RivChipsList[i]->setGeometry(x+2,y+2,40,140);
 
 
 
 
 
+        }
+        x = ui->own_underchip_label->geometry().x();
+        y = ui->own_underchip_label->geometry().y();
+        ui->own_underchip_label->setGeometry(x-2,y-2,80,15);
+
+        x = ui->riv_underchip_label->geometry().x();
+        y = ui->riv_underchip_label->geometry().y();
+        ui->riv_underchip_label->setGeometry(x+2,y+2,80,15);
+
+
+
+    }
+    if(va == 3) {
+
+        for(int i = 0; i < 5; i++) {
+            OwnChipsList[i]->hide();
+            RivChipsList[i]->hide();
+            ui->own_underchip_label->hide();
+            ui->riv_underchip_label->hide();
+        }
+
+    }
+}
+
+
+
+
+
+
+void playdisk::on_raise_slider_valueChanged(int value)
+{
+
+}

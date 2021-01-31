@@ -14,13 +14,13 @@ tranDialog::~tranDialog()
     delete ui;
 }
 
-void tranDialog::on_pushButton_clicked()
+void tranDialog::on_confirm_button_clicked()
 {
     emit sendData();
     this->close();
 }
 
-void tranDialog::on_pushButton_2_clicked()
+void tranDialog::on_cancel_button_clicked()
 {
     emit sendClear();
     this->close();

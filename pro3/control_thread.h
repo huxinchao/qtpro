@@ -15,6 +15,8 @@ public:
     void run();
 signals:
     void startFlash(int,int,int);
+    void sendCard(int);
+    void moveChip(int,int);
 
 };
 

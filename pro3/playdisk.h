@@ -32,10 +32,14 @@ public:
 
     void setOwnChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchip);
     void setRivChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchip);
+    void setPotChipNumber(int number, QPixmap chipImg[5][9], QPixmap* bchip);
 
     void setAllPoker(QPixmap* apimg);
+    void setPubPoker(QPixmap* blimg);
 
     void startFlash(int va, int vb,int vc);
+    void sendCard(int v);
+    void moveChip(int,int);
 
 
 
@@ -46,6 +50,7 @@ private:
     QLabel* RivPokersList[5];
     QLabel* OwnChipsList[5];
     QLabel* RivChipsList[5];
+    QLabel* PotChipsList[5];
 
 signals:
     void stopFlash(int);
@@ -54,9 +59,11 @@ signals:
 private slots:
     void on_pushButton_call_clicked();
     void on_pushButton_fold_clicked();
-    void on_ownSlider_valueChanged(int value);
 
 
+
+
+    void on_raise_slider_valueChanged(int value);
 
 public:
     Ui::playdisk *ui;

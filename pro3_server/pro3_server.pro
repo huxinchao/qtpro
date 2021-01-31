@@ -16,34 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    control_thread.cpp \
-    game_window.cpp \
     main.cpp \
-    mainwindow.cpp \
-    playdisk.cpp \
-    trandialog.cpp \
-    tranlist.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    control_thread.h \
-    game_window.h \
-    mainwindow.h \
-    playdisk.h \
-    task_stru.h \
-    trandialog.h \
-    tranlist.h
+    mainwindow.h
 
 FORMS += \
-    game_window.ui \
-    mainwindow.ui \
-    playdisk.ui \
-    trandialog.ui \
-    tranlist.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    image.qrc

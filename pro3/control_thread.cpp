@@ -28,13 +28,13 @@ void CON_THREAD::run() {
             task = local_taskvec.back();
             local_taskvec.pop_back();
         }
-
+        //------------------- TASK 1 ----------------//
         if(task.id == 1) {
             emit startFlash(1,task.target,0);
             int i = 0;
             int time = 1000;
             int mid_closed = 0;
-            while(time > 0) {
+            while(time) {
                 i++;
                 time--;
                 if(i == 10) {
@@ -70,6 +70,34 @@ void CON_THREAD::run() {
 
 
         }
+        //-------------- TASK 3 -----------------//
+
+        if(task.id == 3) {
+            int time = 150;
+            emit sendCard(3);
+            while(time) {
+                emit sendCard(task.target);
+                time--;
+                msleep(1);
+            }
+            msleep(50);
+            emit sendCard(3);
+        }
+
+        //------------- TASK 4 -----------------//
+
+        if(task.id == 4) {
+            int time = 30;
+            while(time) {
+                emit moveChip(1,0);
+                msleep(2);
+                time--;
+            }
+            msleep(100);
+            emit moveChip(3,0);
+        }
+
+
 
         task.id=0;
         task.target=0;

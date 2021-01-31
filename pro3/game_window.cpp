@@ -21,9 +21,11 @@ game_window::game_window(QWidget *parent) :
     ui(new Ui::game_window)
 
 {
-
+    setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
+
     trand = new tranDialog();
+    tlist = new tranlist();
     con_thread = new CON_THREAD(this);
     pdisk = new playdisk();
 
@@ -31,6 +33,8 @@ game_window::game_window(QWidget *parent) :
     connect(trand,SIGNAL(sendClear()),this, SLOT(clearDealer()));
     connect(con_thread,SIGNAL(startFlash(int,int,int)),this,SLOT(startFlash(int,int,int)));
     connect(pdisk,SIGNAL(stopFlash(int)),this,SLOT(stopFlash(int)));
+    connect(con_thread,SIGNAL(sendCard(int)),this,SLOT(sendCard(int)));
+    connect(con_thread,SIGNAL(moveChip(int,int)),this,SLOT(moveChip(int,int)));
 
 
 
@@ -50,14 +54,14 @@ game_window::game_window(QWidget *parent) :
 
     }
 
-    ui->comboBox->addItem("[Target Account]");
+    ui->dl_target->addItem("[Target Account]");
     for(int i = 4; i < 7; i++) {
-        ui->comboBox->addItem("username" + QString::number(i+1));
+        ui->dl_target->addItem("username" + QString::number(i+1));
     }
 
     QRegExp regx("[0-9]*");
-    QValidator *vali = new QRegExpValidator(regx, ui->dc_lineEdit);
-    ui->dc_lineEdit->setValidator(vali);
+    QValidator *vali = new QRegExpValidator(regx, ui->dl_number);
+    ui->dl_number->setValidator(vali);
 
 
 
@@ -145,6 +149,8 @@ game_window::game_window(QWidget *parent) :
         ui->serdataseq_edit->append("All Poker Load Error");
     }
 
+
+
     //---- Chips -----
 
     QSize chipSize(40,100);
@@ -188,6 +194,7 @@ game_window::game_window(QWidget *parent) :
 
     pdisk->setOwnHeadFlash(&flashhead_img);
     pdisk->setRivHeadFlash(&flashhead_img);
+    pdisk->setPubPoker(&fold_poker_img);
 
     //----- add task -----
 
@@ -211,29 +218,20 @@ void game_window::on_gameList_itemDoubleClicked(QListWidgetItem *item)
     qDebug() << item->text();
 }
 
-void game_window::on_pushButton_clicked()
-{
-    trand->target_account = ui->comboBox->currentText();
-    trand->target_num = ui->dc_lineEdit->text();
-    trand->setAccountInfo();
-    trand->show();
-
-
-}
 
 void game_window::dealChips() {
-    QString target_account = ui->comboBox->currentText();
-    QString target_num = ui->dc_lineEdit->text();
+    QString target_account = ui->dl_target->currentText();
+    QString target_num = ui->dl_target->currentText();
     ui->serdataseq_edit->append(target_account + " " + target_num);
 
-    ui->comboBox->setCurrentIndex(0);
-    ui->dc_lineEdit->setText("");
+    ui->dl_target->setCurrentIndex(0);
+    ui->dl_number->setText("");
 
 }
 
 void game_window::clearDealer() {
-    ui->comboBox->setCurrentIndex(0);
-    ui->dc_lineEdit->setText("");
+    ui->dl_target->setCurrentIndex(0);
+    ui->dl_number->setText("");
 }
 
 
@@ -241,7 +239,7 @@ void game_window::on_send_button_clicked()
 {
     QString str = ui->sendedit->text();
     int value = str.toInt();
-    pdisk->setRivChipNumber(value,chips_img,&blank_chip_img);
+    pdisk->setOwnChipNumber(value,chips_img,&blank_chip_img);
 
 
 }
@@ -292,3 +290,75 @@ void game_window::on_pushButton_6_clicked()
     TASK_VEC.push_back(TASK_STRU(2,2));
     mutex.unlock();
 }
+
+void game_window::sendCard(int v) {
+    pdisk->sendCard(v);
+
+
+}
+
+void game_window::on_pushButton_7_clicked()
+{
+    mutex.lock();
+    TASK_VEC.push_back(TASK_STRU(3,1));
+    mutex.unlock();
+}
+
+void game_window::on_pushButton_8_clicked()
+{
+    mutex.lock();
+    TASK_VEC.push_back(TASK_STRU(3,2));
+    mutex.unlock();
+}
+
+
+
+
+void game_window::on_pushButton_2_clicked()
+{
+    pdisk->show();
+}
+
+void game_window::on_startDeal_button_clicked()
+{
+    int value = ui->dl_number->text().toInt();
+    pdisk->setRivChipNumber(value,chips_img,&blank_chip_img);
+
+}
+
+void game_window::on_getDealList_button_clicked()
+{
+    tlist->show();
+
+}
+
+
+
+
+
+
+void game_window::on_pushButton_clicked()
+{
+    mutex.lock();
+    TASK_VEC.push_back(TASK_STRU(4,1));
+    mutex.unlock();
+}
+
+void game_window::moveChip(int va, int vb) {
+    pdisk->moveChip(va,vb);
+
+}
+
+void game_window::closeEvent(QCloseEvent *event) {
+    Q_UNUSED(event);
+
+
+    pdisk->~playdisk();
+    trand->~tranDialog();
+    tlist->~tranlist();
+    con_thread->quit();
+
+
+}
+
+

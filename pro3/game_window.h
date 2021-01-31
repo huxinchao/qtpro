@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 #include <QListWidget>
+#include <QDebug>
 #include "trandialog.h"
 #include "playdisk.h"
 #include "control_thread.h"
+#include "tranlist.h"
 
 namespace Ui {
 class game_window;
@@ -17,8 +19,10 @@ class game_window : public QMainWindow
 
 public:
     explicit game_window(QWidget *parent = nullptr);
+    void closeEvent(QCloseEvent* event);
     tranDialog* trand;
     playdisk* pdisk;
+    tranlist* tlist;
 
     QPixmap background_img;
     QPixmap pokers_img[4][13];
@@ -31,8 +35,10 @@ public:
     QPixmap flashhead_img;
     QPixmap playdisk_img;
     QPixmap allpoker_img;
-    QPixmap pub_poker_img;
+
     CON_THREAD* con_thread;
+
+
 
 
 
@@ -44,7 +50,7 @@ private slots:
 
     void on_gameList_itemDoubleClicked(QListWidgetItem *item);
 
-    void on_pushButton_clicked();
+    void on_startDeal_button_clicked();
 
     void dealChips();
     void clearDealer();
@@ -55,15 +61,34 @@ private slots:
     void on_pushButton_4_clicked();
     void startFlash(int,int,int);
     void stopFlash(int);
+    void sendCard(int);
+    void moveChip(int,int);
 
 
 
     void on_pushButton_5_clicked();
-
     void on_pushButton_6_clicked();
+
+    void on_pushButton_7_clicked();
+
+    void on_pushButton_8_clicked();
+
+    void on_pushButton_2_clicked();
+
+
+
+    void on_getDealList_button_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::game_window *ui;
+
+
+
+
+
+
 };
 
 

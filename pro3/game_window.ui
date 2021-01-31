@@ -293,6 +293,45 @@
       <string>bar_s</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_7">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>90</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>sendown</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_8">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>90</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>sendriv</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>120</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>mv_o_disk</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QTextEdit" name="serdataseq_edit">
     <property name="geometry">
@@ -305,7 +344,9 @@
     </property>
     <property name="font">
      <font>
-      <family>微软雅黑</family>
+      <family>Consolas</family>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="readOnly">
@@ -324,7 +365,7 @@
     <property name="title">
      <string>筹码交易</string>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="startDeal_button">
      <property name="geometry">
       <rect>
        <x>144</x>
@@ -350,7 +391,7 @@
       <string>收款账户：</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="dl_target">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -358,6 +399,14 @@
        <width>141</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
     </widget>
     <widget class="QLabel" name="label_3">
@@ -373,7 +422,7 @@
       <string>数量：</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="dc_lineEdit">
+    <widget class="QLineEdit" name="dl_number">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -382,11 +431,20 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Cambria</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="maxLength">
       <number>10</number>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="getDealList_button">
      <property name="geometry">
       <rect>
        <x>14</x>
